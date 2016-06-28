@@ -1,12 +1,12 @@
 package JobTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
+import apicore.helpers.Procedure;
 import pages.JobsAPI;
 
 /**
  * This test check the response api Jenkins
- *
+ * create
  */
 public class CreateJobTest extends BaseTest{
 
@@ -23,7 +23,7 @@ public class CreateJobTest extends BaseTest{
         logStep(4,5);
         jobsAPI.check(props.getProperty("jobnamefirst"), Procedure.creation.getValue());
 
-        info("завершние работы");
+        info(">>>завершние работы<<<");
         jobsAPI.delete(props.getProperty("jobnamefirst"));
     }
 }

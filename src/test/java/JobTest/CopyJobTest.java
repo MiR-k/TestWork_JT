@@ -1,7 +1,7 @@
 package JobTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
+import apicore.helpers.Procedure;
 import pages.JobsAPI;
 
 public class CopyJobTest extends BaseTest {

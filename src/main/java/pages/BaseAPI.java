@@ -2,10 +2,13 @@ package pages;
 
 import apicore.BaseEntity;
 import apicore.RestApiServer;
+import apicore.interfaces.IGetService;
 import apicore.interfaces.IPostService;
 import okhttp3.*;
 import okhttp3.Response;
 import org.dom4j.Document;
+import org.dom4j.DocumentException;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import retrofit2.Call;
@@ -16,7 +19,7 @@ import java.util.List;
 
 import static apicore.RestApiServer.getBaseUrl;
 
-public abstract class BaseAPI extends BaseEntity {
+abstract class BaseAPI extends BaseEntity {
 
     private final String messageOne = "Запрос - %s %s: %s";
     protected final String messageSucces = "Запрос успешен. Статус: 200";
@@ -35,7 +38,7 @@ public abstract class BaseAPI extends BaseEntity {
             SAXReader reader = new SAXReader();
             Document document = reader.read(this.getClass().getClassLoader().getResourceAsStream(resourceName));
 
-            String stringXML = document.asXML().toString();
+            String stringXML = document.asXML();
             return stringXML;
         } catch (Exception ex) {
             throw new RuntimeException("Ошибка конвертации", ex);
@@ -142,6 +145,40 @@ public abstract class BaseAPI extends BaseEntity {
         public String toString() {
             return value;
         }
+    }
+
+    /**
+     * Waiting until the end Job Activity
+     * time is given in msseconds
+     * @param nameJob
+     * @param msecond
+     * @throws InterruptedException
+     * @throws IOException
+     * @throws DocumentException
+     */
+    public void wait(String nameJob, int msecond) throws InterruptedException, IOException, DocumentException {
+
+        Thread.sleep(msecond);
+        RestApiServer restApiServer = new RestApiServer();
+        Retrofit retrofit = restApiServer.getRetrofit();
+        int elementAnimate;
+        do{
+            elementAnimate = 0;
+
+            IGetService service = retrofit.create(IGetService.class);
+            Call<ResponseBody> call = service.statusJobs(nameJob);
+            ResponseBody response = call.execute().body();
+
+            Document document = DocumentHelper.parseText(response.string());
+            response.close();
+            List<Element> elementList = document.getRootElement().elements("color");
+            for (Element node: elementList){
+                if (node.getText().contains("_anime")) {
+                    Thread.sleep(msecond);
+                    elementAnimate++;
+                }
+            }
+        } while (elementAnimate != 0);
     }
 
 }

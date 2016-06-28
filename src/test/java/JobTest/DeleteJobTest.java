@@ -1,12 +1,12 @@
 package JobTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
+import apicore.helpers.Procedure;
 import pages.JobsAPI;
 
 /**
- * This test check the response api Jenkins
- *
+ ** This test check the response api Jenkins
+ * delete
  */
 public class DeleteJobTest extends BaseTest {
 

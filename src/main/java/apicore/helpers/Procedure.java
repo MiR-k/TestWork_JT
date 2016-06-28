@@ -1,4 +1,4 @@
-package apicore;
+package apicore.helpers;
 /**
  *  Operation with Entity
  *  instructions for changing the amount of entity

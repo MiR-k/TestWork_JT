@@ -10,33 +10,14 @@ import java.util.Properties;
  */
 public final class PropertiesResourceManager {
 
-	/**
-	 * @uml.property name="properties"
-	 */
 	private Properties properties = new Properties();
 
-	/**
-     * Default Constructor
-     */
 	public PropertiesResourceManager() {
 		properties = new Properties();
 	}
 
-	/**
-	 * Constructor
-	 * @param resourceName Name of resource
-	 */
 	public PropertiesResourceManager(final String resourceName) {
 		properties = appendFromResource(properties, resourceName);
-	}
-
-	/**
-	 * @param defaultResourceName Default Resource Name
-	 * @param resourceName Resource Name
-	 */
-	public PropertiesResourceManager(final String defaultResourceName, final String resourceName) {
-		this(defaultResourceName);
-		properties = appendFromResource(new Properties(properties), resourceName);
 	}
 
 	/**

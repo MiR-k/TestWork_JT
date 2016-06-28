@@ -2,13 +2,10 @@ package apicore;
 
 import apicore.helpers.PropertiesResourceManager;
 import org.testng.annotations.Test;
-import retrofit2.Retrofit;
 
 public abstract class BaseTest extends BaseEntity{
 
-    private static boolean warn = false;
-
-    static final String PROPERTIES_FILE = "testdata.properties";
+    private static final String PROPERTIES_FILE = "testdata.properties";
 
     protected static PropertiesResourceManager props;
     /**

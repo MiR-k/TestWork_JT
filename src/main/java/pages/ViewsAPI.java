@@ -18,6 +18,16 @@ public class ViewsAPI extends BaseAPI{
     private final String  query = "createView?name=%s";
 
     private final String resourceName = "XMLFile/XMLViewCreate";
+    //количество Job на сервере
+    private int numView = 0;
+
+    public int getNumView() {
+        return numView;
+    }
+
+    protected void setNumView(int currentView) {
+        this.numView = currentView;
+    }
 
     /**
      * Create View by Name
@@ -43,7 +53,7 @@ public class ViewsAPI extends BaseAPI{
     }
 
     /**
-     *
+     * Query delete View
      * @param name String
      */
     public void delete(String name){
@@ -60,7 +70,7 @@ public class ViewsAPI extends BaseAPI{
     }
 
     /**
-     *
+     * Query checking View count
      * @param nameView String
      * @param expected
      */
@@ -86,17 +96,9 @@ public class ViewsAPI extends BaseAPI{
         }
     }
 
-    //количество Job на сервере
-    private int numView = 0;
-
-    public int getNumView() {
-        return numView;
-    }
-
-    protected void setNumView(int currentView) {
-        this.numView = currentView;
-    }
-
+    /**
+     * Checking and save count View on server
+     */
     public void checkNum(){
         RestApiServer restApiServer = new RestApiServer();
 

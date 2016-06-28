@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<suite name="Test Regard" verbose="1">
-    <!--
+<suite name="Test Jenkins" verbose="1">
+
     <test name="CreateJob" preserve-order="true">
         <classes>
             <class name="JobTest.CreateJobTest" />
         </classes>
     </test>
-    <test name ="CopyJob" >
+    <test name ="CopyJob">
         <classes>
             <class name="JobTest.CopyJobTest"/>
         </classes>
@@ -16,28 +16,16 @@
             <class name="JobTest.RenameJobTest"/>
         </classes>
     </test>
-    <test name ="DeleteJob" >
-        <classes>
-            <class name="JobTest.DeleteJobTest"/>
-        </classes>
-    </test>
-    <test name ="DisableJob" >
-        <classes>
-            <class name="JobTest.DisableJobTest"/>
-        </classes>
-    </test>
     <test name ="BuildJob" >
         <classes>
             <class name="JobTest.BuildJobTest"/>
         </classes>
     </test>
-
-    <test name ="EditView" >
+    <test name ="DeleteJob" >
         <classes>
-            <class name="ViewTest.EditViewTest"/>
+            <class name="JobTest.DeleteJobTest"/>
         </classes>
     </test>
-    !-->
     <test name ="CreateView" >
         <classes>
             <class name="ViewTest.CreateViewTest"/>
@@ -48,4 +36,21 @@
             <class name="ViewTest.DeleteViewTest"/>
         </classes>
     </test>
+    <test name="CreateNode" >
+        <classes>
+            <class name="NodeTest.CreateNodeTest" />
+        </classes>
+    </test>
+    <test name="DisableNode">
+        <classes>
+            <class name="NodeTest.DisableNodeTest" />
+        </classes>
+    </test>
+    <test name="DeleteNode">
+        <classes>
+            <class name="NodeTest.DeleteNodeTest" />
+        </classes>
+    </test>
+
+
 </suite>

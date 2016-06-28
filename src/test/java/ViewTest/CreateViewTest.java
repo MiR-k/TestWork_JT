@@ -1,9 +1,7 @@
 package ViewTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
-import org.testng.annotations.Test;
-import pages.JobsAPI;
+import apicore.helpers.Procedure;
 import pages.ViewsAPI;
 
 /**
@@ -24,7 +22,7 @@ public class CreateViewTest extends BaseTest {
         logStep(4,5);
         viewsAPI.check(props.getProperty("viewname"), Procedure.creation.getValue());
 
-        info("завершние работы");
+        info(">>>завершние работы<<<");
         viewsAPI.delete(props.getProperty("viewname"));
     }
 }

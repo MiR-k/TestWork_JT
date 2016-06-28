@@ -14,13 +14,13 @@ public class DisableNodeTest extends BaseTest{
         nodeAPI.create(props.getProperty("nodename"));
 
         logStep(1,2);
-        nodeAPI.checkSatus(props.getProperty("nodename"));
+        nodeAPI.checkStatus(props.getProperty("nodename"));
 
         logStep(3);
         nodeAPI.disable(props.getProperty("nodename"));
 
         logStep(4,5);
-        nodeAPI.checkSatus(props.getProperty("nodename"));
+        nodeAPI.checkStatus(props.getProperty("nodename"));
 
         info("Завершение работы");
         nodeAPI.delete(props.getProperty("nodename"));

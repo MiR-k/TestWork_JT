@@ -1,9 +1,8 @@
 package NodeTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
+import apicore.helpers.Procedure;
 import pages.NodeAPI;
-import java.io.IOException;
 
 public class CreateNodeTest extends BaseTest {
 
@@ -19,7 +18,7 @@ public class CreateNodeTest extends BaseTest {
         logStep(4,5);
         nodeAPI.check(props.getProperty("nodename"), Procedure.creation.getValue());
 
-        info("завершние работы");
+        info(">>>завершние работы<<<");
         nodeAPI.delete(props.getProperty("nodename"));
     }
 }

@@ -1,10 +1,12 @@
 package pages;
 
 import apicore.RestApiServer;
+import apicore.interfaces.IGetService;
 import apicore.interfaces.IPostService;
 import okhttp3.*;
 import okhttp3.Response;
 import org.dom4j.Document;
+import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import retrofit2.*;
 import retrofit2.Call;
@@ -21,12 +23,13 @@ public class NodeAPI extends BaseAPI {
 
     private String statusEntity;
 
-    public String getStatusEntity() {return statusEntity;}
+    private String getStatusEntity() {return statusEntity;}
+    private void setStatusEntity(String statusEntity){this.statusEntity = statusEntity;}
 
     //количество Node на сервере
     private int numNode = 0;
 
-    public int getNumNode() {
+    protected int getNumNode() {
         return numNode;
     }
 
@@ -37,7 +40,7 @@ public class NodeAPI extends BaseAPI {
     /**
      * Create View by Name
      * and check query status
-     * @param nameEntity
+     * @param nameEntity String
      */
     public void create(String nameEntity){
 
@@ -86,45 +89,97 @@ public class NodeAPI extends BaseAPI {
         checkStatus(call);
     }
 
+    /**
+     * Disable Node by Name
+     * @param name String
+     */
     public void disable(String name){
         disable(Entity.Node.toString(),name,"toggleOffline");
     }
 
     /**
-     *
-     * @param nameView String
-     * @param expected
+     * Checking Node
+     * depending on the verification operation. operation contained in the enum
+     * @param nameNode String
+     * @param expected int
      */
-    public void check(String nameView, int expected) {
+    public void check(String nameNode, int expected) {
 
-        RestApiServer restApiServer = new RestApiServer();
+        Document doc = getService();
 
-        Document doc = restApiServer.getService();
-
-        List<Element> document = doc.getRootElement().elements("view");
+        List<Element> document = doc.getRootElement().elements("computer");
 
         String messageSuccess = String.format("Фактическое количество Node - %s",document.size());
         String messageFail = String.format("Фактическое количество Node - %s", getNumNode());
         info("Текущее количество элементов: " + getNumNode());
-        info("Ожидаемое количество Job - " + (getNumNode()+expected));
+        info("Ожидаемое количество Node - " + (getNumNode()+expected));
 
         doAssert(document.size() == getNumNode()+expected,messageSuccess,messageFail);
         // -1 удаление немного меняется логика проверки
         if (expected < 0) {
-            doAssert(!checkList(document, "name", nameView), "Элемент отсутствует", "Элемент имеется в списке");
+            doAssert(!checkList(document, "displayName", nameNode), "Элемент отсутствует", "Элемент имеется в списке");
         } else {
-            doAssert(checkList(document, "name", nameView), "Элемент имеется в списке", "Элемент отсутствует");
+            doAssert(checkList(document, "displayName", nameNode), "Элемент имеется в списке", "Элемент отсутствует");
         }
     }
 
     public void checkNum(){
-        RestApiServer restApiServer = new RestApiServer();
-
-        Document doc = restApiServer.getService();
-        List<Element> document = doc.getRootElement().elements("view");
+        Document doc = getService();
+        List<Element> document = doc.getRootElement().elements("computer");
         numNode = document.size();
         info("На сервере всего Node - " + getNumNode());
         info("Состояние сохранено");
+    }
+
+    /**
+     *
+     * @return Document org.dom4j
+     * @throws Exception
+     */
+    private Document getService() {
+
+        RestApiServer restApiServer = new RestApiServer();
+        Retrofit retrofit = restApiServer.getRetrofit();
+
+        IGetService service = retrofit.create(IGetService.class);
+
+        Call<ResponseBody> call = service.nodeList();
+        Document document;
+        try {
+            ResponseBody response = call.execute().body();
+            document = DocumentHelper.parseText(response.string());
+            response.close();
+        } catch (Exception ex) {
+            throw new RuntimeException("Ошибка get запроса", ex);
+        }
+        return document;
+    }
+
+    /**
+     * Checking status Node by name
+     * @param nodeName String
+     */
+    public void checkStatus(String nodeName){
+        Document doc = getService();
+        List<Element> elementList = doc.getRootElement().elements("computer");
+        for (Element node: elementList){
+            if (getStatusEntity() == null)
+            {
+                if (node.elementText("displayName").equals(nodeName)){
+                    setStatusEntity(node.elementText("temporarilyOffline"));
+                    info(String.format("Статус успешно сохранён %s", getStatusEntity()));
+                }
+            } else
+            {
+                if (node.elementText("displayName").equals(nodeName)){
+                    info(String.format("Сохранённый статус temporarilyOffline - %s", getStatusEntity()));
+                    info(String.format("Ожидаемый статус temporarilyOffline - %s", node.elementText("temporarilyOffline")));
+                    doAssert(!node.elementText("temporarilyOffline").equals(getStatusEntity()),
+                            String.format("Статус Node %s был изменён на - %s",nodeName, node.elementText("temporarilyOffline")),
+                            String.format("Статус Node %s не был изменён - %s",nodeName, getStatusEntity()));
+                }
+            }
+        }
     }
 
     protected String formatLogMsg(String message) {

@@ -23,7 +23,7 @@ public class RenameJobTest extends BaseTest {
         logStep(4);
         jobsAPI.check(props.getProperty("jobremame"),0);
 
-        info("завершние работы");
+        info(">>>завершние работы<<<");
         jobsAPI.delete(props.getProperty("jobremame"));
 
     }

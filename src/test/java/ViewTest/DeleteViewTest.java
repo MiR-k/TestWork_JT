@@ -1,9 +1,7 @@
 package ViewTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
-import org.testng.annotations.Test;
-import pages.BaseAPI;
+import apicore.helpers.Procedure;
 import pages.ViewsAPI;
 
 /**

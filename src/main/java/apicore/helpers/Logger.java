@@ -8,12 +8,8 @@ public final class Logger {
 	/**
 	 * Locale
 	 */
-	public enum Locale {
-		/**
-		 * @uml.property name="eN"
-		 * @uml.associationEnd
-		 */
-		EN, /**
+	private enum Locale {
+		 /**
 		 * @uml.property name="rU"
 		 * @uml.associationEnd
 		 */
@@ -24,7 +20,6 @@ public final class Logger {
 	private static final String AQA_LOCALE = "aqa.locale";
 	private static org.apache.log4j.Logger logger = org.apache.log4j.Logger.getLogger(Logger.class);
 	private static Logger instance = null;
-	public static final String LOG_DELIMITER = "::";
 	private static boolean logSteps = true;
 	private static PropertiesResourceManager localManager = new PropertiesResourceManager(String.format("loc_%1$s.properties", System.getProperty(AQA_LOCALE, DEF_LOCALE.toString()).toLowerCase()));
 
@@ -120,18 +115,6 @@ public final class Logger {
 	}
 
 	/**
-	 * Prints the dots
-	 * @param count Amount of dots
-	 */
-	public void printDots(final int count) {
-		String delims = "";
-		for (int i = 0; i < count; i++) {
-			delims += ".";
-		}
-		info(delims);
-	}
-
-	/**
 	 * log Test End
 	 * @param testName test's name
 	 */
@@ -152,30 +135,6 @@ public final class Logger {
 	}
 
 	/**
-	 * This method logs test's name
-	 * @param testName test's name
-	 */
-	public void logPrereqName(final String testName) {
-		if (logSteps) {
-			info(String.format("=====================  %1$s: '%2$s' =====================", getLoc("loc.logger.test.prerequisite.case"), testName));
-			info("----------------------------------------------------------------------------------------------------");
-			logDelimMsg("Preconditions");
-		}
-	}
-
-	/**
-	 * Prerequisites
-	 * @param testName test's name
-	 */
-	public void logPrereq(final String testName) {
-		if (logSteps) {
-			info("----------------------------------------------------------------------------------------------------");
-			info(String.format("=====================  %1$s: '%2$s' =====================", getLoc("loc.logger.test.prerequisite.case.creating"), testName));
-			info("----------------------------------------------------------------------------------------------------");
-		}
-	}
-
-	/**
 	 * End of Prerequisites
 	 * @param testName test's name
 	 */
@@ -184,15 +143,6 @@ public final class Logger {
 			info(String.format("===================== %1$s: '%2$s' =====================", getLoc("loc.logger.test.prerequisite.case.succes"), testName));
 			info("----------------------------------------------------------------------------------------------------");
 		}
-	}
-
-	// All methods below are using for creation messages with a different level of importance
-	/**
-	 * Debug log
-	 * @param message Message
-	 */
-	public void debug(final String message) {
-		logger.debug(message);
 	}
 
 	/**

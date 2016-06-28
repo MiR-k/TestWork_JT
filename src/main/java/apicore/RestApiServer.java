@@ -35,6 +35,10 @@ public class RestApiServer {
         props = new PropertiesResourceManager(PROPERTIES_FILE);
     }
 
+    /**
+     * Get URL by File
+     * @return String Base URL
+     */
     public static String getBaseUrl(){
         initProperties();
         return System.getProperty("urlBase", props.getProperty("urlBase"));

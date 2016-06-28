@@ -1,8 +1,7 @@
 package NodeTest;
 
 import apicore.BaseTest;
-import apicore.Procedure;
-import org.testng.annotations.Test;
+import apicore.helpers.Procedure;
 import pages.NodeAPI;
 
 /**
@@ -24,7 +23,7 @@ public class DeleteNodeTest extends BaseTest{
         nodeAPI.delete(props.getProperty("nodename"));
 
         logStep(4,5);
-        nodeAPI.check(props.getProperty("nodename"), Procedure.creation.getValue());
+        nodeAPI.check(props.getProperty("nodename"), Procedure.removal.getValue());
 
     }
 }
