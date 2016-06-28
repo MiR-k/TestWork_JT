@@ -77,7 +77,7 @@ public class JobsAPI extends BaseAPI{
 
     /**
      *
-     * @param jobName
+     * @param jobName String
      */
     public void delete(String jobName){
         RestApiServer restApiServer = new RestApiServer();
@@ -112,7 +112,13 @@ public class JobsAPI extends BaseAPI{
         return message;
     }
 
+    /**
+     *
+     * @param nameJob String
+     * @param expected
+     */
     public void check(String nameJob, int expected) {
+
         RestApiServer restApiServer = new RestApiServer();
 
         Document doc = restApiServer.getService();
@@ -121,29 +127,19 @@ public class JobsAPI extends BaseAPI{
 
         String messageSuccess = String.format("Фактическое количество Job - %s",document.size());
         String messageFail = String.format("Фактическое количество Job - %s",getNumJob());
-        info("Ожидаемое количество Job - " + getNumJob()+ "+"+expected);
+        info("Текущее количество элементов: " +getNumJob());
+        info("Ожидаемое количество Job - " + (getNumJob()+expected));
 
         doAssert(document.size() == getNumJob()+expected,messageSuccess,messageFail);
-
-        doAssert(checkList(document, "name",nameJob),"Элемент имеется в списке", "Элемент отсутсвует");
+        // -1 удаление немного меняется логика проверки
+        if (expected < 0) {
+            doAssert(!checkList(document, "name", nameJob), "Элемент отсутствует", "Элемент имеется в списке");
+        } else {
+            doAssert(checkList(document, "name", nameJob), "Элемент имеется в списке", "Элемент отсутствует");
+        }
     }
 
-    public void checkRename(String nameJob) {
-        RestApiServer restApiServer = new RestApiServer();
-
-        Document doc = restApiServer.getService();
-
-        List<Element> document = doc.getRootElement().elements("job");
-
-        String messageSuccess = String.format("Фактическое количество Job - %s",document.size());
-        String messageFail = String.format("Фактическое количество Job - %s",getNumJob());
-        info("Ожидаемое количество Job - " + getNumJob());
-
-        doAssert(document.size() == getNumJob(),messageSuccess,messageFail);
-
-        doAssert(checkList(document, "name",nameJob),"Элемент имеется в списке", "Элемент отсутсвует");
-    }
-
+    //количество Job на сервере
     private int numJob = 0;
 
     public int getNumJob() {

@@ -11,7 +11,6 @@ public class RenameJobTest extends BaseTest {
 
     public void runTest() {
 
-        logStep(0);
         JobsAPI jobsAPI = new JobsAPI();
         jobsAPI.create(props.getProperty("jobnamefirst"));
 

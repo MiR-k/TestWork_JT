@@ -7,7 +7,7 @@ import retrofit2.http.GET;
 public interface IGetService {
 
     @GET("api/xml?tree=jobs[name,color,url]")
-    Call<Response> listJobs();
+    Call<Response> ();
 
     @GET("api/xml")
     Call<Response> listView();

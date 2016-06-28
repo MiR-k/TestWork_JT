@@ -3,9 +3,12 @@ package pages;
 import apicore.RestApiServer;
 import apicore.interfaces.IPostService;
 import okhttp3.*;
+import org.dom4j.Document;
+import org.dom4j.Element;
 import retrofit2.*;
 
 import java.io.IOException;
+import java.util.List;
 
 import static apicore.RestApiServer.getBaseUrl;
 
@@ -54,6 +57,54 @@ public class ViewsAPI extends BaseAPI{
         info(String.format(messageOneView,"удаление", name));
         info(mesageExpexted);
         checkStatus(call);
+    }
+
+    /**
+     *
+     * @param nameView String
+     * @param expected
+     */
+    public void check(String nameView, int expected) {
+
+        RestApiServer restApiServer = new RestApiServer();
+
+        Document doc = restApiServer.getService();
+
+        List<Element> document = doc.getRootElement().elements("view");
+
+        String messageSuccess = String.format("Фактическое количество View - %s",document.size());
+        String messageFail = String.format("Фактическое количество View - %s",getNumView());
+        info("Текущее количество элементов: " +getNumView());
+        info("Ожидаемое количество Job - " + (getNumView()+expected));
+
+        doAssert(document.size() == getNumView()+expected,messageSuccess,messageFail);
+        // -1 удаление немного меняется логика проверки
+        if (expected < 0) {
+            doAssert(!checkList(document, "name", nameView), "Элемент отсутствует", "Элемент имеется в списке");
+        } else {
+            doAssert(checkList(document, "name", nameView), "Элемент имеется в списке", "Элемент отсутствует");
+        }
+    }
+
+    //количество Job на сервере
+    private int numView = 0;
+
+    public int getNumView() {
+        return numView;
+    }
+
+    protected void setNumView(int currentView) {
+        this.numView = currentView;
+    }
+
+    public void checkNum(){
+        RestApiServer restApiServer = new RestApiServer();
+
+        Document doc = restApiServer.getService();
+        List<Element> document = doc.getRootElement().elements("view");
+        numView = document.size();
+        info("На сервере всего View - " + getNumView());
+        info("Состояние сохранено");
     }
 
     protected String formatLogMsg(String message) {

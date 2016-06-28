@@ -1,6 +1,7 @@
 package JobTest;
 
 import apicore.BaseTest;
+import apicore.Procedure;
 import pages.JobsAPI;
 
 /**
@@ -20,7 +21,7 @@ public class CreateJobTest extends BaseTest{
         jobsAPI.create(props.getProperty("jobnamefirst"));
 
         logStep(4,5);
-        jobsAPI.check(props.getProperty("jobnamefirst"),1);
+        jobsAPI.check(props.getProperty("jobnamefirst"), Procedure.creation.getValue());
 
         info("завершние работы");
         jobsAPI.delete(props.getProperty("jobnamefirst"));

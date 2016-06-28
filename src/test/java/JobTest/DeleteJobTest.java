@@ -1,10 +1,8 @@
 package JobTest;
 
 import apicore.BaseTest;
-import org.testng.annotations.Test;
+import apicore.Procedure;
 import pages.JobsAPI;
-
-import java.io.IOException;
 
 /**
  * This test check the response api Jenkins
@@ -12,12 +10,18 @@ import java.io.IOException;
  */
 public class DeleteJobTest extends BaseTest {
 
-    @Test
-    public void runTest() throws IOException {
+    public void runTest() {
 
         JobsAPI jobsAPI = new JobsAPI();
+        jobsAPI.create(props.getProperty("jobnamefirst"));
 
-        jobsAPI.delete("JobTestTo011");
-        jobsAPI.delete("JobTestTo021");
+        logStep(1,2);
+        jobsAPI.checkNum();
+
+        logStep(3);
+        jobsAPI.delete(props.getProperty("jobnamefirst"));
+
+        logStep(4,5);
+        jobsAPI.check(props.getProperty("jobnamefirst"), Procedure.removal.getValue());
     }
 }

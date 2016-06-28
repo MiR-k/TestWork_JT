@@ -1,24 +1,25 @@
 package NodeTest;
 
 import apicore.BaseTest;
-import org.testng.annotations.Parameters;
-import org.testng.annotations.Test;
+import apicore.Procedure;
 import pages.NodeAPI;
-
 import java.io.IOException;
 
 public class CreateNodeTest extends BaseTest {
 
-    @Test
-    //@Parameters("TestNg")
-    public void runTest() throws IOException {
+    public void runTest(){
 
+        logStep(1,2);
         NodeAPI nodeAPI = new NodeAPI();
-        nodeAPI.create("Node1");
+        nodeAPI.checkNum();
 
-        nodeAPI.disable("Node1");
+        logStep(3);
+        nodeAPI.create(props.getProperty("nodename"));
 
-        nodeAPI.delete("Node1");
+        logStep(4,5);
+        nodeAPI.check(props.getProperty("nodename"), Procedure.creation.getValue());
 
+        info("завершние работы");
+        nodeAPI.delete(props.getProperty("nodename"));
     }
 }

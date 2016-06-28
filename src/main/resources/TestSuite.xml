@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suite name="Test Regard" verbose="1">
+    <!--
     <test name="CreateJob" preserve-order="true">
         <classes>
             <class name="JobTest.CreateJobTest" />
         </classes>
     </test>
-
     <test name ="CopyJob" >
         <classes>
             <class name="JobTest.CopyJobTest"/>
@@ -16,7 +16,11 @@
             <class name="JobTest.RenameJobTest"/>
         </classes>
     </test>
-    <!--
+    <test name ="DeleteJob" >
+        <classes>
+            <class name="JobTest.DeleteJobTest"/>
+        </classes>
+    </test>
     <test name ="DisableJob" >
         <classes>
             <class name="JobTest.DisableJobTest"/>
@@ -27,21 +31,16 @@
             <class name="JobTest.BuildJobTest"/>
         </classes>
     </test>
-    <test name ="RenameJob" >
-        <classes>
-            <class name="JobTest.RenameJobTest"/>
-        </classes>
-    </test>
 
-    <test name ="CreateView" >
-        <classes>
-            <class name="ViewTest.CreateViewTest"/>
-        </classes>
-    </test>
-    </test>
     <test name ="EditView" >
         <classes>
             <class name="ViewTest.EditViewTest"/>
+        </classes>
+    </test>
+    !-->
+    <test name ="CreateView" >
+        <classes>
+            <class name="ViewTest.CreateViewTest"/>
         </classes>
     </test>
     <test name ="DeleteView" >
@@ -49,5 +48,4 @@
             <class name="ViewTest.DeleteViewTest"/>
         </classes>
     </test>
-    !-->
 </suite>
